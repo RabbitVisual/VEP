@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/memberpanel",
+    "description": "Vertex Solutions LTDA. Módulo MemberPanel.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\MemberPanel\\": "app/",
+            "VertexSolutions\\MemberPanel\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\MemberPanel\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\MemberPanel\\Tests\\": "tests/"
+        }
+    }
+}

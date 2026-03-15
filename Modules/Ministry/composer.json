@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/ministry",
+    "description": "Vertex Solutions LTDA. Módulo Ministry.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Ministry\\": "app/",
+            "VertexSolutions\\Ministry\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Ministry\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Ministry\\Tests\\": "tests/"
+        }
+    }
+}

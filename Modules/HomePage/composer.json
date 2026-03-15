@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/homepage",
+    "description": "Vertex Solutions LTDA. Módulo HomePage.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\HomePage\\": "app/",
+            "VertexSolutions\\HomePage\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\HomePage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\HomePage\\Tests\\": "tests/"
+        }
+    }
+}

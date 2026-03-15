@@ -1,0 +1,27 @@
+<?php
+/**
+ * Autor: Reinan Rodrigues
+ * Empresa: Vertex Solutions LTDA.
+ * Versão: vs.1.0.0
+ */
+
+namespace $NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Permission\Traits\HasRoles;
+
+class $CLASS$ extends Model
+{
+    use HasFactory, HasRoles;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = $FILLABLE$;
+
+    // protected static function newFactory(): $NAME$Factory
+    // {
+    //     // return $NAME$Factory::new();
+    // }
+}

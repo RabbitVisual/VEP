@@ -1,0 +1,27 @@
+{
+    "name": "Sermons",
+    "alias": "sermons",
+    "description": "Estudo e sermões. Elaboração colaborativa de sermões, comentários bíblicos e referências compartilhadas.",
+    "keywords": [
+        "sermons",
+        "sermões",
+        "estudo bíblico",
+        "comentários",
+        "elaboração",
+        "compartilhado",
+        "colaboração",
+        "referências bíblicas"
+    ],
+    "priority": 1,
+    "providers": [
+        "VertexSolutions\\Sermons\\Providers\\SermonsServiceProvider"
+    ],
+    "files": [],
+    "version": "vs.1.0.0",
+    "author": {
+        "name": "Reinan Rodrigues",
+        "email": "r.rodriguesjs@gmail.com",
+        "company": "Vertex Solutions LTDA.",
+        "copyright": "© 2026 Vertex Solutions LTDA"
+    }
+}

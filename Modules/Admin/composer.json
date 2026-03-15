@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/admin",
+    "description": "Vertex Solutions LTDA. Módulo Admin.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Admin\\": "app/",
+            "VertexSolutions\\Admin\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Admin\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Admin\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Core",
+    "alias": "core",
+    "description": "Módulo Core - Sistema central de funcionalidades.",
+    "keywords": [
+        "core",
+        "central"
+    ],
+    "priority": 0,
+    "providers": [
+        "VertexSolutions\\Core\\Providers\\CoreServiceProvider"
+    ],
+    "files": [],
+    "version": "vs.1.0.0",
+    "author": {
+        "name": "Reinan Rodrigues",
+        "email": "r.rodriguesjs@gmail.com",
+        "company": "Vertex Solutions LTDA.",
+        "copyright": "© 2026 Vertex Solutions LTDA"
+    },
+    "is_core": true
+}

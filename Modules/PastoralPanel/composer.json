@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/pastoralpanel",
+    "description": "Vertex Solutions LTDA. Módulo PastoralPanel.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\PastoralPanel\\": "app/",
+            "VertexSolutions\\PastoralPanel\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\PastoralPanel\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\PastoralPanel\\Tests\\": "tests/"
+        }
+    }
+}

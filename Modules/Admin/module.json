@@ -1,0 +1,18 @@
+{
+    "name": "Admin",
+    "alias": "admin",
+    "description": "Painel administrativo: Bíblia, Strong, sermões, usuários e configurações.",
+    "keywords": ["admin", "administração", "painel"],
+    "priority": 0,
+    "providers": [
+        "VertexSolutions\\Admin\\Providers\\AdminServiceProvider"
+    ],
+    "files": [],
+    "version": "vs.1.0.0",
+    "author": {
+        "name": "Reinan Rodrigues",
+        "email": "r.rodriguesjs@gmail.com",
+        "company": "Vertex Solutions LTDA.",
+        "copyright": "© 2026 Vertex Solutions LTDA"
+    }
+}

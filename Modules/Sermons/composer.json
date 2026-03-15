@@ -1,0 +1,28 @@
+{
+    "name": "vertexsolutions/sermons",
+    "description": "Vertex Solutions LTDA. Módulo Sermons - Estudos e sermões.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Sermons\\": "app/",
+            "VertexSolutions\\Sermons\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Sermons\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Sermons\\Tests\\": "tests/"
+        }
+    }
+}

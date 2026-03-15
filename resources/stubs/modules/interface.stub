@@ -1,0 +1,10 @@
+<?php
+/**
+ * Autor - Reinan Rodrigues
+ * Empresa - Vertex Solutions LTDA.
+ * Versão - vs1.0.0
+ */
+
+namespace $CLASS_NAMESPACE$;
+
+interface $CLASS$ {}

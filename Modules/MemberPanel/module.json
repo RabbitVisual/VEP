@@ -1,0 +1,18 @@
+{
+    "name": "MemberPanel",
+    "alias": "memberpanel",
+    "description": "Área do membro: perfil, sermões, estudos e interação.",
+    "keywords": ["member", "membro", "área do usuário", "perfil"],
+    "priority": 0,
+    "providers": [
+        "VertexSolutions\\MemberPanel\\Providers\\MemberPanelServiceProvider"
+    ],
+    "files": [],
+    "version": "vs.1.0.0",
+    "author": {
+        "name": "Reinan Rodrigues",
+        "email": "r.rodriguesjs@gmail.com",
+        "company": "Vertex Solutions LTDA.",
+        "copyright": "© 2026 Vertex Solutions LTDA"
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "resources/assets/js/app.js": {
+    "dynamicImports": [
+      "resources/assets/js/mention-autocomplete.js"
+    ],
+    "file": "assets/app-fb714207.js",
+    "isEntry": true,
+    "src": "resources/assets/js/app.js"
+  },
+  "resources/assets/js/mention-autocomplete.css": {
+    "file": "assets/mention-autocomplete-99a23062.css",
+    "src": "resources/assets/js/mention-autocomplete.css"
+  },
+  "resources/assets/js/mention-autocomplete.js": {
+    "css": [
+      "assets/mention-autocomplete-99a23062.css"
+    ],
+    "file": "assets/mention-autocomplete-fddc226f.js",
+    "isDynamicEntry": true,
+    "src": "resources/assets/js/mention-autocomplete.js"
+  },
+  "resources/assets/sass/app.scss": {
+    "file": "assets/app-54ad0298.css",
+    "isEntry": true,
+    "src": "resources/assets/sass/app.scss"
+  }
+}

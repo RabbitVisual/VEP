@@ -1,0 +1,15 @@
+{
+    "Appearance": true,
+    "Admin": true,
+    "Customer": true,
+    "Storefront": true,
+    "Dropshipping": true,
+    "Checkout": true,
+    "Academy": true,
+    "Ministry": true,
+    "MemberPanel": true,
+    "PastoralPanel": true,
+    "HomePage": true,
+    "Core": true,
+    "Sermons": true
+}

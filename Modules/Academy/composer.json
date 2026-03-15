@@ -1,0 +1,30 @@
+{
+    "name": "vertexsolutions/academy",
+    "description": "Vertex Solutions LTDA. Módulo Academy.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Academy\\": "app/",
+            "VertexSolutions\\Academy\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Academy\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Academy\\Tests\\": "tests/"
+        }
+    }
+}

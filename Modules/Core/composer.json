@@ -1,0 +1,29 @@
+{
+    "name": "vertexsolutions/core",
+    "description": "Vertex Solutions LTDA. Módulo Core - Sistema central de funcionalidades.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Core\\": "app/",
+            "VertexSolutions\\Core\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Core\\Database\\Seeders\\": "database/seeders/",
+            "Modules\\Bible\\App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Core\\Tests\\": "tests/"
+        }
+    }
+}

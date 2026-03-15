@@ -1,0 +1,104 @@
+@import 'tailwindcss';
+
+/* Font Awesome 7.1 Pro (local): ícones globais via <x-icon> — duotone (default), solid, regular, light, thin, brands */
+@import '../fw-pro/css/fontawesome.css';
+@import '../fw-pro/css/duotone.css';
+@import '../fw-pro/css/solid.css';
+@import '../fw-pro/css/regular.css';
+@import '../fw-pro/css/light.css';
+@import '../fw-pro/css/thin.css';
+@import '../fw-pro/css/brands.css';
+
+/* Tailwind v4 Module Scan Sources */
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../Modules/HomePage/resources/views/**/*.blade.php';
+@source '../../Modules/MemberPanel/resources/views/**/*.blade.php';
+@source '../../Modules/Core/resources/views/**/*.blade.php';
+@source '../../Modules/Sermons/resources/views/**/*.blade.php';
+@source '../../Modules/Ministry/resources/views/**/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    /* 100% local: system font stack (no CDN) */
+    --font-sans:
+        ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --radius-lg: 1rem;
+    --radius-md: 0.75rem;
+    --radius-sm: 0.5rem;
+
+    /* Vertex Brand Colors - OKLCH */
+    --color-vertex-blue: oklch(0.6 0.25 260);
+    --color-vertex-dark: oklch(0.2 0.05 260);
+    --color-vertex-glass: rgba(255, 255, 255, 0.03);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.6 0.25 260);
+    /* Vertex Blue */
+    --primary-foreground: oklch(0.985 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.6 0.25 260 / 0.5);
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.16 0.02 260 / 0.8);
+    --card-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.65 0.22 260);
+    --primary-foreground: oklch(0.205 0 0);
+    --border: oklch(0.269 0 0);
+    --input: oklch(0.269 0 0);
+    --ring: oklch(0.65 0.22 260 / 0.5);
+}
+
+/* Alpine.js: hide elements until Alpine has processed x-show */
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* Toggle tema: só um ícone visível (sol em tema claro, lua em tema escuro) — evita os dois ao mesmo tempo */
+.theme-icon-light {
+    display: inline-flex;
+}
+.theme-icon-dark {
+    display: none;
+}
+.dark .theme-icon-light {
+    display: none !important;
+}
+.dark .theme-icon-dark {
+    display: inline-flex !important;
+}

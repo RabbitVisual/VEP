@@ -1,0 +1,18 @@
+{
+    "name": "$STUDLY_NAME$",
+    "alias": "$LOWER_NAME$",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\$PROVIDER_NAMESPACE$\\$STUDLY_NAME$ServiceProvider"
+    ],
+    "files": [],
+    "version": "vs.1.0.0",
+    "author": {
+        "name": "Reinan Rodrigues",
+        "email": "r.rodriguesjs@gmail.com",
+        "company": "Vertex Solutions LTDA.",
+        "copyright": "© 2026 Vertex Solutions LTDA"
+    }
+}
