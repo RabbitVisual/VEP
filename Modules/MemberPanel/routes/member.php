@@ -24,8 +24,9 @@ use VertexSolutions\Community\Http\Controllers\PrayerController as CommunityPray
 use VertexSolutions\Community\Http\Controllers\PublicProfileController as CommunityPublicProfileController;
 use VertexSolutions\Community\Http\Controllers\FollowController as CommunityFollowController;
 use VertexSolutions\Community\Http\Controllers\PostController as CommunityPostController;
-use VertexSolutions\Community\Http\Controllers\PostLikeController as CommunityPostLikeController;
 use VertexSolutions\Community\Http\Controllers\PostCommentController as CommunityPostCommentController;
+use VertexSolutions\Community\Http\Controllers\PostLikeController as CommunityPostLikeController;
+use VertexSolutions\Community\Http\Controllers\ReactionController as CommunityReactionController;
 
 Route::middleware(['web', 'auth', 'verified'])
     ->prefix('painel')
@@ -119,6 +120,8 @@ Route::middleware(['web', 'auth', 'verified'])
             Route::get('feed', [CommunityFeedController::class, 'index'])->name('feed.index');
             Route::post('posts', [CommunityPostController::class, 'store'])->name('posts.store');
             Route::post('posts/{post}/like', [CommunityPostLikeController::class, 'toggle'])->name('posts.like');
+            Route::post('posts/{post}/reactions', [CommunityReactionController::class, 'toggleForPost'])->name('posts.reactions.toggle');
+            Route::post('comments/{comment}/reactions', [CommunityReactionController::class, 'toggleForComment'])->name('comments.reactions.toggle');
             Route::post('posts/{post}/comments', [CommunityPostCommentController::class, 'store'])->name('posts.comments.store');
             Route::get('prayers', [CommunityPrayerController::class, 'index'])->name('prayers.index');
             Route::post('prayers', [CommunityPrayerController::class, 'store'])->name('prayers.store');

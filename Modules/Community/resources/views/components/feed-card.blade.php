@@ -6,8 +6,21 @@
   if (!$item) return;
   $user = $item->user ?? null;
   $contentHtml = $type === 'post' ? \App\Services\TheologicalMarkdownConverter::convert($item->content ?? '') : null;
+  $baseReactions = [
+      'like' => method_exists($item, 'reactions') ? $item->reactions()->where('type', \VertexSolutions\Community\Models\Reaction::TYPE_LIKE)->count() : 0,
+      'amen' => method_exists($item, 'reactions') ? $item->reactions()->where('type', \VertexSolutions\Community\Models\Reaction::TYPE_AMEN)->count() : 0,
+      'praying' => method_exists($item, 'reactions') ? $item->reactions()->where('type', \VertexSolutions\Community\Models\Reaction::TYPE_PRAYING)->count() : 0,
+  ];
+  $commentsCount = property_exists($item, 'comments_count') ? (int) $item->comments_count : ($item->comments()->count() ?? 0);
 @endphp
-<article class="rounded-2xl border border-slate-200/80 dark:border-slate-700/80 bg-white/70 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+<article
+  class="rounded-2xl border border-slate-200/80 dark:border-slate-700/80 bg-white/70 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden"
+  x-data="communityPostCard({
+    postId: {{ $type === 'post' ? (int) $item->id : 0 }},
+    reactions: @js($baseReactions),
+    commentsCount: {{ $type === 'post' ? $commentsCount : 0 }},
+  })"
+>
   <div class="p-5" id="post-{{ $type === 'post' ? $item->id : ('item-'.$item->id) }}">
     <div class="flex items-start gap-4">
       @if($user)
@@ -47,32 +60,70 @@
       @endif
     </div>
     @if($type === 'post')
-      <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50 space-y-3 text-slate-500 dark:text-slate-400 text-sm" x-data="{ showComments: false }">
+      <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50 space-y-3 text-slate-500 dark:text-slate-400 text-sm">
         <div class="flex items-center gap-4">
-          <form method="POST" action="{{ route('painel.community.posts.like', $item) }}">
-            @csrf
-            <button type="submit" class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-colors" aria-label="Curtir">
-              <i class="fa-duotone fa-heart"></i>
-              <span>Curtir</span>
-              @if(property_exists($item, 'likes_count') && $item->likes_count)
-                <span class="text-xs text-slate-400">({{ $item->likes_count }})</span>
-              @endif
-            </button>
-          </form>
-          <button type="button" @click="showComments = !showComments" class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-colors" aria-label="Comentar">
-            <i class="fa-duotone fa-comment"></i>
+          <button
+            type="button"
+            @click.prevent="toggleReaction('like')"
+            class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200"
+            :class="{ 'scale-110 text-amber-600 dark:text-amber-400': hasReaction('like') }"
+            aria-label="Curtir"
+          >
+            <i class="fa-duotone fa-heart"></i>
+            <span>Curtir</span>
+            <span class="text-xs text-slate-400" x-show="reactions.like > 0" x-text="'(' + reactions.like + ')'"></span>
+          </button>
+
+          <button
+            type="button"
+            @click.prevent="toggleReaction('amen')"
+            class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200"
+            :class="{ 'scale-110 text-amber-600 dark:text-amber-400': hasReaction('amen') }"
+            aria-label="Amém"
+          >
+            <i class="fa-duotone fa-hands-praying"></i>
+            <span>Amém</span>
+            <span class="text-xs text-slate-400" x-show="reactions.amen > 0" x-text="'(' + reactions.amen + ')'"></span>
+          </button>
+
+          <button
+            type="button"
+            @click.prevent="toggleReaction('praying')"
+            class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200"
+            :class="{ 'scale-110 text-amber-600 dark:text-amber-400': hasReaction('praying') }"
+            aria-label="Estou orando"
+          >
+            <i class="fa-duotone fa-hands-holding"></i>
+            <span>Orando</span>
+            <span class="text-xs text-slate-400" x-show="reactions.praying > 0" x-text="'(' + reactions.praying + ')'"></span>
+          </button>
+
+          <button
+            type="button"
+            @click="toggleComments"
+            class="flex items-center gap-1.5 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200"
+            aria-label="Comentar"
+          >
+            <i class="fa-duotone fa-comment-lines"></i>
             <span>Comentar</span>
-            @if(property_exists($item, 'comments_count') && $item->comments_count)
-              <span class="text-xs text-slate-400">({{ $item->comments_count }})</span>
-            @endif
+            <span class="text-xs text-slate-400" x-show="commentsCount > 0" x-text="'(' + commentsCount + ')'"></span>
           </button>
         </div>
 
         <div x-show="showComments" x-cloak x-transition>
-          <form method="POST" action="{{ route('painel.community.posts.comments.store', $item) }}" class="mb-3">
-            @csrf
-            <label for="comment-{{ $item->id }}" class="sr-only">Novo comentário</label>
-            <textarea id="comment-{{ $item->id }}" name="content" rows="2" maxlength="1000" required class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500" placeholder="Escreva um comentário..."></textarea>
+          <form @submit.prevent="submitComment" class="mb-3">
+            <label :for="'comment-' + postId" class="sr-only">Novo comentário</label>
+            <textarea
+              :id="'comment-' + postId"
+              x-ref="commentInput"
+              name="content"
+              rows="2"
+              maxlength="1000"
+              required
+              class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500"
+              placeholder="Escreva um comentário..."
+              data-mention-editor="true"
+            ></textarea>
             <div class="mt-2 flex justify-end">
               <button type="submit" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium transition-colors">
                 Publicar comentário
@@ -80,25 +131,22 @@
             </div>
           </form>
 
-          @php $comments = $item->relationLoaded('comments') ? $item->comments->sortByDesc('created_at')->take(3) : collect(); @endphp
-          @if($comments->isNotEmpty())
-            <div class="space-y-2">
-              @foreach($comments as $comment)
-                <div class="flex items-start gap-2 text-xs">
-                  <div class="mt-0.5">
-                    <i class="fa-duotone fa-comment text-[11px]"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-700 dark:text-slate-200">
-                      {{ $comment->user->name ?? 'Membro' }}
-                      <span class="ml-1 text-[10px] font-normal text-slate-400">{{ $comment->created_at->diffForHumans() }}</span>
-                    </p>
-                    <p class="text-slate-600 dark:text-slate-300">{{ $comment->content }}</p>
-                  </div>
+          <div class="space-y-2" x-show="comments.length">
+            <template x-for="comment in comments" :key="comment.id">
+              <div class="flex items-start gap-2 text-xs">
+                <div class="mt-0.5">
+                  <i class="fa-duotone fa-comment text-[11px]"></i>
                 </div>
-              @endforeach
-            </div>
-          @endif
+                <div>
+                  <p class="font-semibold text-slate-700 dark:text-slate-200">
+                    <span x-text="comment.user_name"></span>
+                    <span class="ml-1 text-[10px] font-normal text-slate-400" x-text="comment.created_at_human"></span>
+                  </p>
+                  <div class="text-slate-600 dark:text-slate-300 prose prose-slate dark:prose-invert max-w-none text-xs" x-html="comment.content_html"></div>
+                </div>
+              </div>
+            </template>
+          </div>
         </div>
       </div>
     @endif

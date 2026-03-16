@@ -15,7 +15,7 @@
         <h2 class="text-lg font-semibold text-slate-100">Nova aula – {{ $module->title }}</h2>
     </div>
 
-    <form action="{{ route('pastoral.academy.lessons.store', $module) }}" method="POST" class="space-y-6 rounded-xl border border-slate-700 bg-slate-800/50 p-6">
+    <form action="{{ route('pastoral.academy.lessons.store', $module) }}" method="POST" enctype="multipart/form-data" class="space-y-6 rounded-xl border border-slate-700 bg-slate-800/50 p-6">
         @csrf
 
         <div>
@@ -49,6 +49,14 @@
                 <input type="number" name="order" id="order" value="{{ old('order', $maxOrder + 1) }}" min="0"
                        class="mt-1 block w-full rounded-lg border-slate-600 bg-slate-800 text-slate-100 shadow-sm focus:ring-indigo-500">
             </div>
+        </div>
+
+        <div>
+            <label for="attachments" class="block text-sm font-medium text-slate-300">Materiais de apoio (PDF / Slides)</label>
+            <input type="file" name="attachments[]" id="attachments" multiple
+                   class="mt-1 block w-full text-sm text-slate-100 file:mr-4 file:rounded-md file:border-0 file:bg-slate-700 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-100 hover:file:bg-slate-600">
+            <p class="mt-1 text-xs text-slate-500">Formatos aceitos: PDF, PPT, PPTX, Keynote, ODP.</p>
+            @error('attachments.*')<p class="mt-1 text-sm text-red-400">{{ $message }}</p>@enderror
         </div>
 
         <div class="flex gap-3">

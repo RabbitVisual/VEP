@@ -4,6 +4,7 @@ namespace VertexSolutions\Academy\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lesson extends Model
 {
@@ -26,5 +27,10 @@ class Lesson extends Model
     public function module(): BelongsTo
     {
         return $this->belongsTo(CourseModule::class, 'module_id');
+    }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(LessonAttachment::class, 'lesson_id');
     }
 }

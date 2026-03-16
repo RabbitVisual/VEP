@@ -8,24 +8,32 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use VertexSolutions\Community\Models\Post;
-use VertexSolutions\Community\Models\PostLike;
+use VertexSolutions\Community\Models\Reaction;
 
 class PostLikeController extends Controller
 {
+    /**
+     * Compat: mantém rota antiga baseada em redirect, usando reactions (type=like).
+     */
     public function toggle(Request $request, Post $post): RedirectResponse
     {
-        $userId = $request->user()->id;
+        $userId = (int) $request->user()->id;
 
-        $existing = PostLike::where('post_id', $post->id)
+        $existing = Reaction::query()
             ->where('user_id', $userId)
+            ->where('reactable_type', Post::class)
+            ->where('reactable_id', $post->id)
+            ->where('type', Reaction::TYPE_LIKE)
             ->first();
 
         if ($existing) {
             $existing->delete();
         } else {
-            PostLike::create([
-                'post_id' => $post->id,
+            Reaction::create([
                 'user_id' => $userId,
+                'reactable_type' => Post::class,
+                'reactable_id' => $post->id,
+                'type' => Reaction::TYPE_LIKE,
             ]);
         }
 

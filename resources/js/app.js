@@ -3,6 +3,111 @@ import '../css/app.css';
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
+
+document.addEventListener('alpine:init', () => {
+  Alpine.data('communityPostCard', (props) => ({
+    postId: props.postId,
+    reactions: {
+      like: props.reactions?.like ?? 0,
+      amen: props.reactions?.amen ?? 0,
+      praying: props.reactions?.praying ?? 0,
+    },
+    userReactions: [],
+    commentsCount: props.commentsCount ?? 0,
+    showComments: false,
+    comments: [],
+    isSubmittingComment: false,
+
+    hasReaction(type) {
+      return this.userReactions.includes(type);
+    },
+
+    async toggleReaction(type) {
+      if (!this.postId) return;
+      try {
+        const res = await fetch(`/painel/community/posts/${this.postId}/reactions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+          },
+          body: JSON.stringify({ type }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data?.counts) {
+          this.reactions.like = data.counts.like ?? this.reactions.like;
+          this.reactions.amen = data.counts.amen ?? this.reactions.amen;
+          this.reactions.praying = data.counts.praying ?? this.reactions.praying;
+        }
+        if (Array.isArray(data?.user_reactions)) {
+          this.userReactions = data.user_reactions;
+        }
+      } catch {
+        // fail silently for now
+      }
+    },
+
+    toggleComments() {
+      this.showComments = !this.showComments;
+      if (this.showComments && this.comments.length === 0) {
+        // Podemos carregar comentários completos via endpoint dedicado em uma etapa futura
+      }
+      if (this.showComments && this.$refs.commentInput) {
+        this.$nextTick(() => {
+          try {
+            this.$refs.commentInput.focus();
+          } catch {}
+        });
+      }
+    },
+
+    async submitComment() {
+      if (this.isSubmittingComment || !this.postId || !this.$refs.commentInput) return;
+      const content = this.$refs.commentInput.value.trim();
+      if (!content) return;
+
+      this.isSubmittingComment = true;
+      try {
+        const res = await fetch(`/painel/community/posts/${this.postId}/comments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+          },
+          body: JSON.stringify({ content }),
+        });
+        if (!res.ok) {
+          this.isSubmittingComment = false;
+          return;
+        }
+        const data = await res.json();
+        if (data?.comment) {
+          this.comments.unshift(data.comment);
+          this.commentsCount += 1;
+          this.$refs.commentInput.value = '';
+
+          if (window.initBibleMentionAutocomplete) {
+            window.initBibleMentionAutocomplete();
+          } else if (window.Alpine && window.Alpine.initTree) {
+            this.$nextTick(() => {
+              window.Alpine.initTree(this.$root);
+            });
+          }
+        }
+      } catch {
+        // ignore
+      } finally {
+        this.isSubmittingComment = false;
+      }
+    },
+  }));
+});
+
 Alpine.start();
 
 // Tema claro/escuro: um único listener, troca rápida sem travar
