@@ -9,6 +9,7 @@ namespace VertexSolutions\Core\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use VertexSolutions\Core\Models\BibleBook;
 use VertexSolutions\Core\Models\BibleBookPanorama;
 use VertexSolutions\Core\Models\BibleChapter;
@@ -132,6 +133,8 @@ class BibleApiService
     public function findByReference(string $reference): ?array
     {
         $reference = trim($reference);
+        // Normaliza casos como "João 3:1:1" (mantém apenas o primeiro bloco cap:verso)
+        $reference = preg_replace('/(\d+:\d+):\d+$/', '$1', $reference);
         if ($reference === '') {
             return null;
         }
@@ -145,9 +148,18 @@ class BibleApiService
         $verseStart = (int) $matches[3];
         $verseEnd = (int) ($matches[4] ?? $verseStart);
 
-        $book = BibleBook::where('name', 'like', $bookName)
-            ->orWhere('abbreviation', 'like', $bookName)
-            ->with('bibleVersion')
+        $defaultVersionId = $this->getDefaultVersionId();
+
+        $bookQuery = BibleBook::with('bibleVersion');
+        if ($defaultVersionId) {
+            $bookQuery->where('bible_version_id', $defaultVersionId);
+        }
+
+        $book = $bookQuery
+            ->where(function ($q) use ($bookName) {
+                $q->where('name', 'like', $bookName)
+                    ->orWhere('abbreviation', 'like', $bookName);
+            })
             ->first();
 
         if (! $book) {
@@ -176,19 +188,13 @@ class BibleApiService
             $refStr .= '-'.$verseEnd;
         }
 
-        $fullChapterUrl = route('memberpanel.bible.chapter', [
-            'version' => $book->bibleVersion->abbreviation,
-            'book' => $book->book_number,
-            'chapter' => $chapter->chapter_number,
-        ]);
-
         return [
             'reference' => $refStr,
             'book' => $book->name,
             'book_number' => $book->book_number,
             'chapter' => $chapter->chapter_number,
             'verses' => $verses,
-            'full_chapter_url' => $fullChapterUrl,
+            'full_chapter_url' => null,
         ];
     }
 

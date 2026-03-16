@@ -24,6 +24,8 @@ use VertexSolutions\Community\Http\Controllers\PrayerController as CommunityPray
 use VertexSolutions\Community\Http\Controllers\PublicProfileController as CommunityPublicProfileController;
 use VertexSolutions\Community\Http\Controllers\FollowController as CommunityFollowController;
 use VertexSolutions\Community\Http\Controllers\PostController as CommunityPostController;
+use VertexSolutions\Community\Http\Controllers\PostLikeController as CommunityPostLikeController;
+use VertexSolutions\Community\Http\Controllers\PostCommentController as CommunityPostCommentController;
 
 Route::middleware(['web', 'auth', 'verified'])
     ->prefix('painel')
@@ -116,6 +118,8 @@ Route::middleware(['web', 'auth', 'verified'])
         Route::prefix('community')->name('community.')->group(function () {
             Route::get('feed', [CommunityFeedController::class, 'index'])->name('feed.index');
             Route::post('posts', [CommunityPostController::class, 'store'])->name('posts.store');
+            Route::post('posts/{post}/like', [CommunityPostLikeController::class, 'toggle'])->name('posts.like');
+            Route::post('posts/{post}/comments', [CommunityPostCommentController::class, 'store'])->name('posts.comments.store');
             Route::get('prayers', [CommunityPrayerController::class, 'index'])->name('prayers.index');
             Route::post('prayers', [CommunityPrayerController::class, 'store'])->name('prayers.store');
             Route::post('prayers/{prayerRequest}/pray', [CommunityPrayerController::class, 'pray'])->name('prayers.pray');

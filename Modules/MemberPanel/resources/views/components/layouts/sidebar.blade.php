@@ -131,7 +131,7 @@
                         <button @click="open = !open" type="button"
                             class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ (request()->routeIs('painel.bible.*') || request()->routeIs('painel.verse-explainer*')) ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                             <span class="flex items-center gap-2"><x-icon name="book-bible" class="size-5" /> Leitura &amp; Interlinear</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" x-bind:class="open ? '-rotate-180' : ''" />
                         </button>
                         <ul class="mt-2 space-y-1 px-4 border-l-2 border-gray-100 dark:border-gray-700 ml-6" x-show="open" x-cloak x-transition>
                             <li><a href="{{ route('painel.bible.read') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.read') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Leitura Bíblica</a></li>
@@ -142,10 +142,12 @@
                             class="mt-2 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.verse-explainer*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                             <span class="flex items-center gap-2"><x-icon name="brain-circuit" class="size-5" /> Verse Explainer (IA)</span>
                         </a>
-                        <a href="{{ route('painel.notes.index') }}"
-                            class="mt-1 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.notes.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                            <span class="flex items-center gap-2"><i class="fa-duotone fa-notebook w-5 h-5"></i> Meu Caderno de Notas</span>
-                        </a>
+                        @if (\Illuminate\Support\Facades\Route::has('painel.notes.index'))
+                            <a href="{{ route('painel.notes.index') }}"
+                                class="mt-1 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.notes.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                                <span class="flex items-center gap-2"><i class="fa-duotone fa-notebook w-5 h-5"></i> Meu Caderno de Notas</span>
+                            </a>
+                        @endif
                     </div>
                 </li>
 
@@ -171,7 +173,7 @@
                         <button @click="open = !open" type="button"
                             class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.community.*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                             <span class="flex items-center gap-2"><i class="fa-duotone fa-users-rectangle w-5 h-5 inline-block"></i> Fórum &amp; Comunidade</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" x-bind:class="open ? '-rotate-180' : ''" />
                         </button>
                         <ul class="mt-2 space-y-1 px-4 border-l-2 border-gray-100 dark:border-gray-700 ml-6" x-show="open" x-cloak x-transition>
                             <li><a href="{{ route('painel.community.feed.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.community.feed.*') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Fórum &amp; Feed</a></li>
@@ -190,7 +192,7 @@
                         <button @click="open = !open" type="button"
                             class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.profile.*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                             <span class="flex items-center gap-2"><x-icon name="user" class="size-5" /> Conta</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" x-bind:class="open ? '-rotate-180' : ''" />
                         </button>
                         <ul class="mt-2 space-y-1 px-4" x-show="open" x-cloak x-transition>
                             <li>
