@@ -131,22 +131,16 @@
             </div>
           </form>
 
-          <div class="space-y-2" x-show="comments.length">
-            <template x-for="comment in comments" :key="comment.id">
-              <div class="flex items-start gap-2 text-xs">
-                <div class="mt-0.5">
-                  <i class="fa-duotone fa-comment text-[11px]"></i>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-700 dark:text-slate-200">
-                    <span x-text="comment.user_name"></span>
-                    <span class="ml-1 text-[10px] font-normal text-slate-400" x-text="comment.created_at_human"></span>
-                  </p>
-                  <div class="text-slate-600 dark:text-slate-300 prose prose-slate dark:prose-invert max-w-none text-xs" x-html="comment.content_html"></div>
-                </div>
-              </div>
-            </template>
-          </div>
+          @php
+            /** @var \VertexSolutions\Community\Models\Post $item */
+            $initialComments = $item->comments()
+              ->whereNull('parent_id')
+              ->with(['user', 'replies.user'])
+              ->latest()
+              ->take(3)
+              ->get();
+          @endphp
+          <x-community::comment-tree :comments="$initialComments" :post="$item" />
         </div>
       </div>
     @endif

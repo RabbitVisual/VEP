@@ -53,6 +53,12 @@ class BiblePanoramaController extends Controller
             return response()->json(['message' => 'Parâmetro ref é obrigatório.'], 400);
         }
 
+        // Permitir que venham textos adicionais após a referência (ex.: "João 3:16 Teste")
+        // mantendo apenas a primeira parte que parece uma referência bíblica.
+        if (preg_match('/^(.+?\d+:\d+(?:-\d+)?)/u', $ref, $m)) {
+            $ref = trim($m[1]);
+        }
+
         $result = $this->bibleApi->findByReference($ref);
         if ($result === null) {
             return response()->json(['message' => 'Referência não encontrada.'], 404);

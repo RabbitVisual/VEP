@@ -22,7 +22,7 @@ final class FeedAggregatorService
     public function getPaginatedFeed(int $page = 1): LengthAwarePaginator
     {
         $posts = Post::with(['user'])
-            ->withCount(['likes', 'comments'])
+            ->withCount(['comments'])
             ->orderByDesc('created_at')
             ->limit(50)
             ->get()
