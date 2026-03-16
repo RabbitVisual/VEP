@@ -19,6 +19,11 @@ use VertexSolutions\Sermons\Http\Controllers\MemberPanel\BibleSeriesController a
 use VertexSolutions\Sermons\Http\Controllers\MemberPanel\BibleStudyController as SermonsBibleStudyController;
 use VertexSolutions\Sermons\Http\Controllers\MemberPanel\SermonConsultantController;
 use VertexSolutions\Sermons\Http\Controllers\MemberPanel\SermonController as SermonsSermonController;
+use VertexSolutions\Community\Http\Controllers\FeedController as CommunityFeedController;
+use VertexSolutions\Community\Http\Controllers\PrayerController as CommunityPrayerController;
+use VertexSolutions\Community\Http\Controllers\PublicProfileController as CommunityPublicProfileController;
+use VertexSolutions\Community\Http\Controllers\FollowController as CommunityFollowController;
+use VertexSolutions\Community\Http\Controllers\PostController as CommunityPostController;
 
 Route::middleware(['web', 'auth', 'verified'])
     ->prefix('painel')
@@ -105,5 +110,16 @@ Route::middleware(['web', 'auth', 'verified'])
         // Ministérios (Ministry)
         Route::prefix('ministries')->name('ministries.')->group(function () {
             Route::get('{ministry}/dashboard', [MinistryDashboardController::class, 'dashboard'])->name('dashboard');
+        });
+
+        // Community Hub (Feed, Mural de Intercessão, Perfil público)
+        Route::prefix('community')->name('community.')->group(function () {
+            Route::get('feed', [CommunityFeedController::class, 'index'])->name('feed.index');
+            Route::post('posts', [CommunityPostController::class, 'store'])->name('posts.store');
+            Route::get('prayers', [CommunityPrayerController::class, 'index'])->name('prayers.index');
+            Route::post('prayers', [CommunityPrayerController::class, 'store'])->name('prayers.store');
+            Route::post('prayers/{prayerRequest}/pray', [CommunityPrayerController::class, 'pray'])->name('prayers.pray');
+            Route::get('perfil/{user}', [CommunityPublicProfileController::class, 'show'])->name('profile.show');
+            Route::post('perfil/{user}/follow', [CommunityFollowController::class, 'toggle'])->name('follow.toggle');
         });
     });

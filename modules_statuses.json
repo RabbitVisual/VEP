@@ -11,5 +11,6 @@
     "PastoralPanel": true,
     "HomePage": true,
     "Core": true,
-    "Sermons": true
+    "Sermons": true,
+    "Community": true
 }

@@ -1,0 +1,28 @@
+{
+    "name": "vertexsolutions/community",
+    "description": "Vertex Solutions LTDA. Module Community.",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "VertexSolutions\\Community\\": "app/",
+            "VertexSolutions\\Community\\Database\\Factories\\": "database/factories/",
+            "VertexSolutions\\Community\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VertexSolutions\\Community\\Tests\\": "tests/"
+        }
+    }
+}

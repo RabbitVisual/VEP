@@ -67,6 +67,38 @@ class User extends Authenticatable
     }
 
     /**
+     * Users that this user follows (Community Hub).
+     */
+    public function following(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\VertexSolutions\Community\Models\UserFollow::class, 'follower_id');
+    }
+
+    /**
+     * Users that follow this user (Community Hub).
+     */
+    public function followers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\VertexSolutions\Community\Models\UserFollow::class, 'following_id');
+    }
+
+    /**
+     * Posts by this user (Community Hub).
+     */
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\VertexSolutions\Community\Models\Post::class);
+    }
+
+    /**
+     * Prayer requests by this user (Community Hub).
+     */
+    public function prayerRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\VertexSolutions\Community\Models\PrayerRequest::class);
+    }
+
+    /**
      * Get the user's full name.
      */
     public function getNameAttribute(): string
