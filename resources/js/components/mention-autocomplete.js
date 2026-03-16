@@ -92,7 +92,9 @@ function bibleMentionCollection() {
     },
     selectTemplate: (item) => {
       if (!item || !item.original) return '@';
-      const ref = item.original.reference || item.original.name || '';
+      let ref = (item.original.reference || item.original.name || '').trim();
+      if (!ref) return '@';
+      if (!/\d+:\d+(-\d+)?/.test(ref)) ref = ref.replace(/(\d+)\s*$/, '$1:1');
       return `@${ref}`;
     },
     menuItemTemplate: (item) => {

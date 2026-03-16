@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Route;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Mention\Mention;
 use League\CommonMark\Extension\Mention\MentionExtension;
 use League\CommonMark\MarkdownConverter;
+use App\Services\InlineBibleReferenceRenderer;
 
 /**
  * Converts Markdown to HTML with @mention support for Bible references.
- * Format: @João 3:16 or @Gênesis 1:1 → link to Bible search/verse.
+ * Only references with verse (e.g. @João 3:16, @Salmos 3:1-4) are converted to inline expandable components.
+ * Chapter-only refs (e.g. @Salmos 3) are not converted.
  */
 final class TheologicalMarkdownConverter
 {
@@ -31,7 +32,7 @@ final class TheologicalMarkdownConverter
     }
 
     /**
-     * Get the singleton converter with @ref mentions configured.
+     * Get the singleton converter with @ref mentions configured (verse required).
      */
     public static function getConverter(): MarkdownConverter
     {
@@ -44,10 +45,12 @@ final class TheologicalMarkdownConverter
                 'ref' => [
                     'prefix' => '@',
                     'pattern' => '[\p{L}\p{N}\s:.\-]+',
-                    'generator' => function (Mention $mention): Mention {
+                    'generator' => function (Mention $mention): ?Mention {
                         $ref = trim($mention->getIdentifier());
-                        $url = self::verseReferenceUrl($ref);
-                        $mention->setUrl($url);
+                        if (! preg_match('/\d+:\d+(-\d+)?/', $ref)) {
+                            return null;
+                        }
+                        $mention->setUrl('#inline-' . rawurlencode($ref));
 
                         return $mention;
                     },
@@ -58,6 +61,7 @@ final class TheologicalMarkdownConverter
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkCoreExtension);
         $environment->addExtension(new MentionExtension);
+        $environment->addRenderer(Mention::class, new InlineBibleReferenceRenderer(), 10);
 
         self::$converter = new MarkdownConverter($environment);
 
@@ -67,22 +71,5 @@ final class TheologicalMarkdownConverter
     public static function reset(): void
     {
         self::$converter = null;
-    }
-
-    private static function verseReferenceUrl(string $reference): string
-    {
-        if (function_exists('route')) {
-            try {
-                $searchRoute = Route::has('painel.bible.search')
-                    ? route('painel.bible.search')
-                    : route('memberpanel.bible.search');
-
-                return $searchRoute . '?ref=' . rawurlencode($reference);
-            } catch (\Throwable) {
-                // route not available (e.g. console)
-            }
-        }
-
-        return '#ref-' . rawurlencode($reference);
     }
 }

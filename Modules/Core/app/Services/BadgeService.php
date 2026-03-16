@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace VertexSolutions\Core\Services;
 
 use Carbon\Carbon;
+use App\Models\User;
 use VertexSolutions\Core\Models\BiblePlanDay;
 use VertexSolutions\Core\Models\BiblePlanSubscription;
 use VertexSolutions\Core\Models\BibleUserBadge;
@@ -121,6 +122,38 @@ final class BadgeService
         BibleUserBadge::create([
             'user_id' => $subscription->user_id,
             'badge_key' => BibleUserBadge::BADGE_LEITOR_DO_CORPO,
+            'subscription_id' => $subscription->id,
+            'awarded_at' => now(),
+        ]);
+    }
+
+    public function awardTheologianBadge(User $user): void
+    {
+        $exists = BibleUserBadge::where('user_id', $user->id)
+            ->where('badge_key', BibleUserBadge::BADGE_TEOLOGO)
+            ->exists();
+        if ($exists) {
+            return;
+        }
+        BibleUserBadge::create([
+            'user_id' => $user->id,
+            'badge_key' => BibleUserBadge::BADGE_TEOLOGO,
+            'subscription_id' => null,
+            'awarded_at' => now(),
+        ]);
+    }
+
+    public function awardBereanoForPlanCompletion(BiblePlanSubscription $subscription): void
+    {
+        $exists = BibleUserBadge::where('subscription_id', $subscription->id)
+            ->where('badge_key', BibleUserBadge::BADGE_BEREANO)
+            ->exists();
+        if ($exists) {
+            return;
+        }
+        BibleUserBadge::create([
+            'user_id' => $subscription->user_id,
+            'badge_key' => BibleUserBadge::BADGE_BEREANO,
             'subscription_id' => $subscription->id,
             'awarded_at' => now(),
         ]);

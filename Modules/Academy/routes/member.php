@@ -17,3 +17,6 @@ Route::get('enrollments/{enrollment}/lesson/{lesson}', [LessonPlayerController::
 Route::post('enrollments/{enrollment}/lessons/{lesson}/complete', [LessonPlayerController::class, 'completeLesson'])->name('lessons.complete');
 
 Route::get('certificates/{certificate}/download', [CertificateController::class, 'download'])->name('certificates.download');
+
+Route::get('my-courses', [EnrollmentController::class, 'myCourses'])->name('my-courses');
+Route::get('certificates', [CertificateController::class, 'index'])->name('certificates.index');

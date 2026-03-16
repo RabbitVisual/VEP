@@ -13,7 +13,7 @@
   <form action="{{ route('painel.community.posts.store') }}" method="POST" class="mb-8 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 bg-white/70 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm p-5">
     @csrf
     <label for="post-content" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Compartilhe com a comunidade</label>
-    <textarea name="content" id="post-content" rows="3" required maxlength="10000" placeholder="Escreva uma atualização, pergunta ou testemunho... Use @ para referências bíblicas (ex: @João 3:16)." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 px-4 py-3 text-sm"></textarea>
+    <textarea name="content" id="post-content" rows="3" required maxlength="10000" placeholder="Escreva uma atualização, pergunta ou testemunho... Use @ para referências bíblicas (ex: @João 3:16)." class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 px-4 py-3 text-sm" data-mention-editor="true"></textarea>
     <input type="hidden" name="type" value="update">
     <div class="mt-3 flex justify-end">
       <button type="submit" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium transition-colors">Publicar</button>

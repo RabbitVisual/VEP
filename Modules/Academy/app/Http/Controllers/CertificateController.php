@@ -5,10 +5,23 @@ namespace VertexSolutions\Academy\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 use VertexSolutions\Academy\Models\Certificate;
 
 class CertificateController extends Controller
 {
+    public function index(): View
+    {
+        $certificates = Certificate::with('course')
+            ->where('user_id', auth()->id())
+            ->orderByDesc('issued_at')
+            ->get();
+
+        return view('academy::memberpanel.certificates.index', [
+            'certificates' => $certificates,
+        ]);
+    }
+
     public function download(Certificate $certificate): Response
     {
         if ($certificate->user_id !== auth()->id()) {

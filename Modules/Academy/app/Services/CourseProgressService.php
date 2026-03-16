@@ -2,6 +2,7 @@
 
 namespace VertexSolutions\Academy\Services;
 
+use VertexSolutions\Academy\Events\CourseCompletedEvent;
 use VertexSolutions\Academy\Models\Certificate;
 use VertexSolutions\Academy\Models\Enrollment;
 use VertexSolutions\Academy\Models\Lesson;
@@ -51,13 +52,19 @@ class CourseProgressService
             ->first();
 
         if ($existing) {
+            event(new CourseCompletedEvent($enrollment, $existing));
+
             return $existing;
         }
 
-        return Certificate::create([
+        $certificate = Certificate::create([
             'user_id' => $enrollment->user_id,
             'course_id' => $enrollment->course_id,
         ]);
+
+        event(new CourseCompletedEvent($enrollment, $certificate));
+
+        return $certificate;
     }
 
     public function getNextLesson(Enrollment $enrollment, Lesson $currentLesson): ?Lesson

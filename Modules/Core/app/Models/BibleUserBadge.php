@@ -18,6 +18,10 @@ class BibleUserBadge extends Model
 
     public const BADGE_LEITOR_DO_CORPO = 'leitor_do_corpo';
 
+    public const BADGE_TEOLOGO = 'teologo';
+
+    public const BADGE_BEREANO = 'bereano';
+
     protected $fillable = ['user_id', 'badge_key', 'subscription_id', 'awarded_at'];
 
     protected function casts(): array
@@ -38,6 +42,8 @@ class BibleUserBadge extends Model
             self::BADGE_BEREANO_SEMANA => 'Bereano da Semana',
             self::BADGE_FIEL_AO_PACTO => 'Fiel ao Pacto',
             self::BADGE_LEITOR_DO_CORPO => 'Leitor do Corpo',
+            self::BADGE_TEOLOGO => 'Teólogo',
+            self::BADGE_BEREANO => 'Bereano',
             default => $badgeKey,
         };
     }

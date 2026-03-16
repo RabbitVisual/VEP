@@ -90,7 +90,7 @@
                     <img class="h-12 w-12 rounded-full object-cover ring-2 ring-purple-500 dark:ring-purple-400"
                         src="{{ Auth::user()->avatar_url ?? '' }}" alt="{{ Auth::user()->name }}"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold text-lg ring-2 ring-purple-500 dark:ring-purple-400 bg-gradient-to-br from-purple-400 to-purple-600"
+                    <div class="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold text-lg ring-2 ring-purple-500 dark:ring-purple-400 bg-linear-to-br from-purple-400 to-purple-600"
                         style="display: none;">
                         {{ strtoupper(substr(Auth::user()->first_name ?? Auth::user()->name ?? 'U', 0, 1)) }}
                     </div>
@@ -100,71 +100,97 @@
                     </div>
                 </div>
             </div>
-            <ul class="mt-4 space-y-1">
+            <ul class="mt-4 space-y-4">
+                {{-- Meu Campus --}}
                 <li>
-                    <a href="{{ route('painel.dashboard') }}"
-                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.dashboard') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                        <span class="flex items-center gap-2"><x-icon name="gauge-high" class="size-5" /> Dashboard</span>
-                    </a>
-                </li>
-                <li x-data="{ open: {{ request()->routeIs('painel.bible.*') ? 'true' : 'false' }} }">
-                    <div class="flex flex-col">
-                        <button @click="open = !open" type="button"
-                            class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.bible.*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                            <span class="flex items-center gap-2"><x-icon name="book-bible" class="size-5" /> Bíblia</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="'open ? \'-rotate-180\' : \'\''" />
-                        </button>
-                        <ul class="mt-2 space-y-1 px-4 border-l-2 border-gray-100 dark:border-gray-700 ml-6" x-show="open" x-cloak x-transition>
-                            <li><a href="{{ route('painel.bible.read') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.read') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Leitura</a></li>
-                            <li><a href="{{ route('painel.bible.plans.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.plans.index') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Meus Planos</a></li>
-                            <li><a href="{{ route('painel.bible.plans.catalog') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.plans.catalog') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Catálogo de Planos</a></li>
-                            <li><a href="{{ route('painel.bible.favorites') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.favorites') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Favoritos</a></li>
-                        </ul>
+                    <p class="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Meu Campus</p>
+                    <div class="mt-1 space-y-1">
+                        <a href="{{ route('painel.dashboard') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.dashboard') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="gauge-high" class="size-5" /> Dashboard</span>
+                        </a>
+                        <a href="{{ route('painel.academy.my-courses') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.academy.my-courses') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="graduation-cap" class="size-5" /> Meus Cursos</span>
+                        </a>
+                        <a href="{{ route('painel.academy.catalog') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.academy.catalog') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="books" class="size-5" /> Catálogo de Cursos</span>
+                        </a>
+                        <a href="{{ route('painel.academy.certificates.index') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.academy.certificates.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><i class="fa-duotone fa-certificate w-5 h-5"></i> Meus Certificados</span>
+                        </a>
                     </div>
                 </li>
-                <li>
-                    <a href="{{ route('painel.verse-explainer') }}"
-                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.verse-explainer*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                        <span class="flex items-center gap-2"><x-icon name="brain-circuit" class="size-5" /> Verse Explainer</span>
-                    </a>
+
+                {{-- Laboratório Teológico --}}
+                <li x-data="{ open: {{ request()->routeIs('painel.bible.*') || request()->routeIs('painel.verse-explainer*') ? 'true' : 'false' }} }">
+                    <p class="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Laboratório Teológico</p>
+                    <div class="mt-1 flex flex-col">
+                        <button @click="open = !open" type="button"
+                            class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ (request()->routeIs('painel.bible.*') || request()->routeIs('painel.verse-explainer*')) ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="book-bible" class="size-5" /> Leitura &amp; Interlinear</span>
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
+                        </button>
+                        <ul class="mt-2 space-y-1 px-4 border-l-2 border-gray-100 dark:border-gray-700 ml-6" x-show="open" x-cloak x-transition>
+                            <li><a href="{{ route('painel.bible.read') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.read') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Leitura Bíblica</a></li>
+                            <li><a href="{{ route('painel.bible.interlinear') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.interlinear') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Interlinear</a></li>
+                            <li><a href="{{ route('painel.bible.plans.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.bible.plans.index') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Meus Planos de Leitura</a></li>
+                        </ul>
+                        <a href="{{ route('painel.verse-explainer') }}"
+                            class="mt-2 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.verse-explainer*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="brain-circuit" class="size-5" /> Verse Explainer (IA)</span>
+                        </a>
+                        <a href="{{ route('painel.notes.index') }}"
+                            class="mt-1 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.notes.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><i class="fa-duotone fa-notebook w-5 h-5"></i> Meu Caderno de Notas</span>
+                        </a>
+                    </div>
                 </li>
+
+                {{-- Homilética & Acervo --}}
                 <li>
-                    <a href="{{ route('painel.sermons.index') }}"
-                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.sermons.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                        <span class="flex items-center gap-2"><x-icon name="podium" class="size-5" /> Sermões</span>
-                    </a>
+                    <p class="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Homilética &amp; Acervo</p>
+                    <div class="mt-1 space-y-1">
+                        <a href="{{ route('painel.sermons.index') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.sermons.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="podium" class="size-5" /> Explorar Sermões</span>
+                        </a>
+                        <a href="{{ route('painel.series.index') }}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.series.*') || request()->routeIs('painel.studies.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="books" class="size-5" /> Séries e Estudos</span>
+                        </a>
+                    </div>
                 </li>
-                <li>
-                    <a href="{{ route('painel.academy.catalog') }}"
-                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.academy.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                        <span class="flex items-center gap-2"><x-icon name="graduation-cap" class="size-5" /> Academia</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('ministry.index') }}"
-                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.ministries.*') || request()->routeIs('ministry.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                        <span class="flex items-center gap-2"><x-icon name="users-viewfinder" class="size-5" /> Meus Ministérios</span>
-                    </a>
-                </li>
+
+                {{-- Vida em Comunidade --}}
                 <li x-data="{ open: {{ request()->routeIs('painel.community.*') ? 'true' : 'false' }} }">
-                    <div class="flex flex-col">
+                    <p class="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Vida em Comunidade</p>
+                    <div class="mt-1 flex flex-col">
                         <button @click="open = !open" type="button"
                             class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.community.*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                            <span class="flex items-center gap-2"><i class="fa-duotone fa-house-user w-5 h-5 inline-block"></i> Comunidade</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="'open ? \'-rotate-180\' : \'\''" />
+                            <span class="flex items-center gap-2"><i class="fa-duotone fa-users-rectangle w-5 h-5 inline-block"></i> Fórum &amp; Comunidade</span>
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
                         </button>
                         <ul class="mt-2 space-y-1 px-4 border-l-2 border-gray-100 dark:border-gray-700 ml-6" x-show="open" x-cloak x-transition>
-                            <li><a href="{{ route('painel.community.feed.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.community.feed.*') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Feed</a></li>
+                            <li><a href="{{ route('painel.community.feed.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.community.feed.*') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Fórum &amp; Feed</a></li>
                             <li><a href="{{ route('painel.community.prayers.index') }}" class="block rounded-lg px-4 py-2 text-xs font-medium {{ request()->routeIs('painel.community.prayers.*') ? 'text-purple-600 dark:text-purple-400 font-bold' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">Mural de Intercessão</a></li>
                         </ul>
+                        <a href="{{ route('ministry.index') }}"
+                            class="mt-1 block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('ministry.*') || request()->routeIs('painel.ministries.*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                            <span class="flex items-center gap-2"><x-icon name="users-viewfinder" class="size-5" /> Minhas Escalas</span>
+                        </a>
                     </div>
                 </li>
+
+                {{-- Conta --}}
                 <li x-data="{ open: {{ request()->routeIs('painel.profile.*') ? 'true' : 'false' }} }">
                     <div class="flex flex-col">
                         <button @click="open = !open" type="button"
                             class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('painel.profile.*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                             <span class="flex items-center gap-2"><x-icon name="user" class="size-5" /> Conta</span>
-                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="'open ? \'-rotate-180\' : \'\''" />
+                            <x-icon name="chevron-down" class="size-5 shrink-0 transition duration-300" :class="open ? '-rotate-180' : ''" />
                         </button>
                         <ul class="mt-2 space-y-1 px-4" x-show="open" x-cloak x-transition>
                             <li>
