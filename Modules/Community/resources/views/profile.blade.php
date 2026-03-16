@@ -49,7 +49,7 @@
   {{-- Tab: Atividade --}}
   <div x-show="tab === 'activity'" x-cloak class="space-y-6">
     @forelse($activityFeed as $entry)
-      <x-community::components.feed-card :entry="$entry" />
+      @include('community::components.feed-card', ['entry' => $entry])
     @empty
       <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 p-8 text-center text-slate-500 dark:text-slate-400">
         <i class="fa-duotone fa-house-user text-4xl mb-3 opacity-50"></i>
